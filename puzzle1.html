@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle 1 - The Forgotten Message</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <audio id="bg-music" src="sounds/background-music.mp3" loop></audio>
+
+    <div class="container">
+        <header>
+            <h1>Puzzle 1: The First Clue</h1>
+        </header>
+        <main>
+            <p>Detective, the first clue is hidden in plain sight. Solve the riddle to proceed.</p>
+            <p class="riddle">"I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?"</p>
+            <input type="text" id="answer-input" placeholder="Enter your answer">
+            <button id="submit-answer" class="btn">Submit</button>
+            <p id="feedback" class="feedback"></p>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const audio = document.getElementById("bg-music");
+
+            // Resume music from last time position
+            const savedTime = localStorage.getItem("musicTime");
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+
+            // Start playing if it was playing before
+            if (localStorage.getItem("musicPlaying") === "true") {
+                audio.volume = 0.3;
+                audio.play().catch(error => console.error("Autoplay blocked:", error));
+            }
+
+            // Handle autoplay restrictions
+            function startMusic() {
+                audio.volume = 0.3;
+                audio.play().then(() => {
+                    localStorage.setItem("musicPlaying", "true");
+                }).catch(error => console.error("Autoplay blocked:", error));
+                document.removeEventListener("click", startMusic);
+            }
+            document.addEventListener("click", startMusic);
+
+            // Save current time before leaving
+            window.addEventListener("beforeunload", function () {
+                localStorage.setItem("musicTime", audio.currentTime);
+            });
+
+            // Puzzle answer validation
+            document.getElementById("submit-answer").addEventListener("click", function () {
+                const userAnswer = document.getElementById("answer-input").value.trim().toLowerCase();
+                const feedback = document.getElementById("feedback");
+
+                if (userAnswer === "echo") {
+                    feedback.textContent = "Correct! Moving to the next puzzle...";
+                    feedback.style.color = "green";
+                    setTimeout(() => window.location.href = "puzzle2.html", 2000);
+                } else {
+                    feedback.textContent = "Incorrect. Try again.";
+                    feedback.style.color = "red";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,1 +1,135 @@
-Hello banygworl <3
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Forgotten Message</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url('images/index-background.jpg') no-repeat center center/cover;
+            color: white;
+            font-family: 'PT Serif', serif;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 1.1em;
+        }
+        .btn {
+            background: crimson;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            border-radius: 10px;
+        }
+        .btn:hover {
+            background: darkred;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-content {
+            background: black;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        input {
+            width: 80%;
+            padding: 8px;
+            margin-top: 10px;
+            border: 1px solid crimson;
+            border-radius: 5px;
+            background: #222;
+            color: white;
+        }
+        .error {
+            color: crimson;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>The Forgotten Message</h1>
+        <p>Detective, something precious has been stolen — your final message! 
+            Solve the mystery to get what is rightfully yours before the truth is lost forever.</p>
+        <button id="start-btn" class="btn">Begin Investigation</button>
+    </div>
+
+    <div id="name-popup" class="popup">
+        <div class="popup-content">
+            <p>Detective, state your name:</p>
+            <input type="text" id="name-input" placeholder="Enter your name">
+            <button id="submit-name" class="btn">Confirm</button>
+            <p id="error-message" class="error"></p>
+        </div>
+    </div>
+
+    <audio id="bg-music" src="sounds\background-music.mp3" loop autoplay></audio>
+
+    <script>
+        document.getElementById('start-btn').addEventListener('click', function() {
+            document.getElementById('name-popup').style.display = 'flex';
+        });
+
+        document.getElementById('submit-name').addEventListener('click', function() {
+            const name = document.getElementById('name-input').value.trim().toLowerCase();
+            const errorMessage = document.getElementById('error-message');
+
+            if (name === 'kanishka') {
+                window.location.href = 'puzzle1.html';
+            } else {
+                errorMessage.textContent = 'This can only be solved by the one!';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const audio = document.getElementById("bg-music");
+            audio.volume = 0.95;
+
+            function playMusic() {
+                audio.play().catch(error => console.error("Autoplay blocked:", error));
+            }
+
+            playMusic();
+
+            document.addEventListener("click", playMusic);
+        });
+
+    </script>
+
+</body>
+</html>
